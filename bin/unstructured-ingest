@@ -1,0 +1,12 @@
+#!/home/zigaubuntu/Desktop/LangChain/chat-with-pdf/bin/python3
+# EASY-INSTALL-ENTRY-SCRIPT: 'unstructured==0.6.1','console_scripts','unstructured-ingest'
+__requires__ = 'unstructured==0.6.1'
+import re
+import sys
+from pkg_resources import load_entry_point
+
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw?|\.exe)?$', '', sys.argv[0])
+    sys.exit(
+        load_entry_point('unstructured==0.6.1', 'console_scripts', 'unstructured-ingest')()
+    )
