@@ -10,9 +10,9 @@ from langchain.llms import OpenAI
 from langchain.chains.question_answering import load_qa_chain
 
 
-OPENAI_API_KEY = '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'
-PINECONE_API_KEY = 'f381bdac-39bd-472a-a1bd-576f7fad92fd'
-PINECONE_API_ENV = 'us-west1-gcp-free'
+OPENAI_API_KEY = ''
+PINECONE_API_KEY = ''
+PINECONE_API_ENV = ''
 
 loader = UnstructuredPDFLoader('./field-guide-to-data-science.pdf')
 data = loader.load()
