@@ -10,9 +10,9 @@ from langchain.llms import OpenAI
 from langchain.chains.question_answering import load_qa_chain
 
 
-OPENAI_API_KEY = ''
-PINECONE_API_KEY = ''
-PINECONE_API_ENV = ''
+OPENAI_API_KEY = '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'
+PINECONE_API_KEY = 'f381bdac-39bd-472a-a1bd-576f7fad92fd'
+PINECONE_API_ENV = 'us-west1-gcp-free'
 
 loader = UnstructuredPDFLoader('./field-guide-to-data-science.pdf')
 data = loader.load()
@@ -49,8 +49,7 @@ from langchain.chains import ConversationalRetrievalChain
     chain_type="stuff",
     retriever=docsearch.as_retriever()
 ) """
-memory = ConversationSummaryMemory(llm=llm, return_messages=True)
-
+memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 rqa = ConversationalRetrievalChain.from_llm(llm, docsearch.as_retriever(), memory=memory)
 
 
@@ -59,17 +58,20 @@ rqa = ConversationalRetrievalChain.from_llm(llm, docsearch.as_retriever(), memor
 """ def retrieve_answer(query):
     retrieval_result = rqa.run(query=query) """
 def retrieve_answer(query, chat_history):
-    retrieval_result = rqa({"question": query, "chat_history": chat_history})
+    # retrieval_result = rqa({"question": query, "chat_history": chat_history})
+    
+    res = rqa({"question": query, "chat_history": chat_history})
+    retrieval_result = res["answer"]
 
     # Check if the answer is satisfactory
-    if "The given context does not provide" in retrieval_result or "the given context does not provide" in retrieval_result or "The provided context does not contain" in retrieval_result or "I don't know" in retrieval_result or "This information is not provided" in retrieval_result or "in the given context" in retrieval_result:
+    if "The given context does not provide" in retrieval_result or "context provided does not" in retrieval_result or "the given context does not provide" in retrieval_result or "The provided context does not contain" in retrieval_result or "I don't know" in retrieval_result or "This information is not provided" in retrieval_result or "in the given context" in retrieval_result:
         # If not, use the base GPT-3.5 Turbo model to answer the question
         base_result = llm.generate([query])
         # return base_result['generations'][0][0]['text']
         return base_result
     else:
         # return retrieval_result
-        return retrieval_result['answer']
+        return retrieval_result
 
 
 # Define a function to display the chat messages and the retrieved sources
