@@ -8,9 +8,10 @@ from langchain.chains.question_answering import load_qa_chain
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 
-OPENAI_API_KEY = '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'
-PINECONE_API_KEY = '235f7741-d74c-4f99-ac70-d4a99bbc2e30'
-PINECONE_API_ENV = 'us-west1-gcp-free'
+OPENAI_API_KEY = ''
+PINECONE_API_KEY = ''
+PINECONE_API_ENV = ''
+
 
 loader = UnstructuredPDFLoader('./field-guide-to-data-science.pdf')
 data = loader.load()
